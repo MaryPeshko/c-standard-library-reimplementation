@@ -3,16 +3,19 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mpeshko <mpeshko@student.42.fr>            +#+  +:+       +#+         #
+#    By: mpeshko <mpeshko@student.42berlin.de>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/21 22:18:51 by mpeshko           #+#    #+#              #
-#    Updated: 2024/06/10 19:43:32 by mpeshko          ###   ########.fr        #
+#    Updated: 2026/10/25 15:54:54 by mpeshko          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = libft.a
+SRCDIR = src
 
-SRC =	ft_atoi.c ft_bzero.c ft_calloc.c ft_isalnum.c ft_isalpha.c ft_isascii.c \
+# addprefix prepends "src/" to each filename below (e.g. ft_atoi.c -> src/ft_atoi.c)
+SRC =	$(addprefix $(SRCDIR)/, \
+		ft_atoi.c ft_bzero.c ft_calloc.c ft_isalnum.c ft_isalpha.c ft_isascii.c \
 		ft_isdigit.c ft_isprint.c ft_itoa.c ft_memchr.c ft_memcmp.c ft_memcpy.c \
 		ft_memmove.c ft_memset.c ft_putchar_fd.c ft_putendl_fd.c ft_putnbr_fd.c \
 		ft_putstr_fd.c ft_strchr.c ft_strdup.c ft_striteri.c ft_strjoin.c \
@@ -22,17 +25,21 @@ SRC =	ft_atoi.c ft_bzero.c ft_calloc.c ft_isalnum.c ft_isalpha.c ft_isascii.c \
 		ft_lstadd_back.c ft_lstadd_front.c \
 		ft_lstclear.c ft_lstdelone.c ft_lstiter.c \
 		ft_lstlast.c ft_lstmap.c ft_lstnew.c \
+	)
 
-OBJ = $(SRC:%.c=obj/%.o)
+# Pattern substitution: convert src/name.c into obj/name.o for object targets
+OBJ = $(SRC:$(SRCDIR)/%.c=obj/%.o)
 
-CFLAGS = -Wall -Wextra -Werror
+# -I. adds the current directory to header search path (so #include "libft.h" works)
+CFLAGS = -Wall -Wextra -Werror -I.
 
 $(NAME): $(OBJ)
+	# ar rcs creates/updates static library archive and writes object files into libft.a
 	ar rcs $(NAME) $(OBJ)
 
 all:	$(NAME)
 
-obj/%.o: %.c
+obj/%.o: $(SRCDIR)/%.c
 	@mkdir -p $(@D)
 	@printf "$(BOLD)\rCompiling $(NAME): ["
 	@printf "] "
@@ -40,12 +47,11 @@ obj/%.o: %.c
 
 clean:
 	@echo "Cleaning up obj files..."
-	rm -f $(OBJ)
+	rm -rf obj/
 
 fclean: clean
 	@echo "Cleaning up obj and archive files..."
-	rm -f $(NAME)
-	rm -r obj/
+	rm -rf $(NAME)
 	
 re:	fclean all
 
