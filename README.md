@@ -1,12 +1,10 @@
 # libft (bonus included)
 
-## About this project
-
-This is my first project as a student of 42 Berlin school. It was completed during December 2023 and January 2024.
-
 Libft is a custom C library that reimplements a set of standard _libc_ functions and adds extra utility functions for strings, memory, file descriptors, and linked lists.
 
 The goal of the project is to understand how low-level C functions work internally and to build a reusable library for future 42 projects.
+
+Completed at 42 Berlin (Dec 2023 - Jan 2024) as part of the core C curriculum.
 
 ## What this project contains
 
@@ -63,5 +61,11 @@ Link your project with libft:
 $(NAME): $(OBJ) $(LIB)
 	$(CC) $(CFLAGS) $(OBJ) $(LIB) -o $(NAME)
 ```
+
+## Knowledge note
+
+A **static library** (`.a` on Linux/macOS, `.lib` on Windows) is a bundle of object files that **gets copied into your program at link time**. After linking, the executable contains its own copy of every library function it uses, and it no longer needs the `.a` file to run.
+
+The non-static kind is a **dynamic library**, also called a **shared library** (`.so` on Linux, `.dylib` on macOS, `.dll` on Windows). The linker doesn’t copy the code in. It only records “this program needs libft.so”, and the library is loaded **when the program starts** (or later, on demand). Many programs can share one copy of it in memory.
 
 (c) Maryna Peshko

@@ -1,16 +1,5 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: mpeshko <mpeshko@student.42berlin.de>      +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2023/12/21 22:18:51 by mpeshko           #+#    #+#              #
-#    Updated: 2026/10/25 15:54:54 by mpeshko          ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
 NAME = libft.a
+
 SRCDIR = src
 
 # addprefix prepends "src/" to each filename below (e.g. ft_atoi.c -> src/ft_atoi.c)
@@ -33,12 +22,15 @@ OBJ = $(SRC:$(SRCDIR)/%.c=obj/%.o)
 # -I. adds the current directory to header search path (so #include "libft.h" works)
 CFLAGS = -Wall -Wextra -Werror -I.
 
+# Default target
+all: $(NAME)
+
+# Main build rule
+# ar rcs creates/updates static library archive and writes object files into libft.a
 $(NAME): $(OBJ)
-	# ar rcs creates/updates static library archive and writes object files into libft.a
 	ar rcs $(NAME) $(OBJ)
 
-all:	$(NAME)
-
+# Pattern rule for objects
 obj/%.o: $(SRCDIR)/%.c
 	@mkdir -p $(@D)
 	@printf "$(BOLD)\rCompiling $(NAME): ["
